@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101b16"><meta name="description" content="Renda+ — tarefas e oportunidades para ganhar uma renda extra.">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css"><title>Renda+</title>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span class="brand-mark">R+</span> RENDA<span>+</span></a>
+  <div class="top-actions"><span class="pill">GRATUITO</span><button id="installBtn" class="icon-btn" hidden>Instalar app</button><button id="menuBtn" class="icon-btn" aria-label="Abrir menu">☰</button></div>
+</header>
+<main>
+  <section class="hero">
+    <div><p class="eyebrow">OPORTUNIDADES TODOS OS DIAS</p><h1>Sua renda começa <em>aqui.</em></h1><p class="hero-copy">Encontre tarefas, envie sua atividade e acompanhe seus ganhos em um só lugar.</p></div>
+    <div class="balance-card"><div class="balance-top"><span>Saldo disponível</span><span class="live-dot">● BETA</span></div><strong id="balance">R$ 0,00</strong><small>Saques são conferidos e pagos manualmente pela equipe.</small></div>
+  </section>
+  <nav class="tabs" aria-label="Navegação">
+    <button class="tab active" data-view="tasks">Tarefas</button><button class="tab" data-view="wallet">Carteira</button><button class="tab" data-view="history">Minhas atividades</button><button class="tab" data-view="account">Minha conta</button>
+  </nav>
+  <section id="tasksView" class="view">
+    <div class="section-heading"><div><p class="eyebrow">ESCOLHA UMA ATIVIDADE</p><h2>Tarefas disponíveis</h2></div><span id="taskCount" class="muted"></span></div>
+    <div class="filters"><button class="filter active" data-filter="Todas">Todas</button><button class="filter" data-filter="Online">Online</button><button class="filter" data-filter="Local">Na sua cidade</button></div>
+    <div id="taskList" class="task-grid"></div>
+    <p class="notice">Nunca pague para liberar tarefas. Confira as regras e a empresa responsável antes de enviar dados pessoais.</p>
+  </section>
+  <section id="walletView" class="view" hidden>
+    <p class="eyebrow">SEU DINHEIRO</p><h2>Carteira</h2>
+    <div class="wallet-grid"><article class="stat"><span>Disponível</span><strong id="walletAvailable">R$ 0,00</strong></article><article class="stat"><span>Aguardando aprovação</span><strong id="walletPending">R$ 0,00</strong></article><article class="stat"><span>Total aprovado</span><strong id="walletTotal">R$ 0,00</strong></article></div>
+    <article class="panel"><h3>Solicitar saque</h3><p class="muted">Saque mínimo de R$ 10,00. Cada saque é conferido pela equipe antes do pagamento via Pix.</p><label>Chave Pix<input id="pixKey" placeholder="Sua chave Pix"></label><button class="primary" id="withdrawBtn">Solicitar saque</button><p id="withdrawMsg" class="small muted"></p></article>
+  </section>
+  <section id="historyView" class="view" hidden><p class="eyebrow">SEU PROGRESSO</p><h2>Minhas atividades</h2><div id="historyList" class="panel empty">Você ainda não enviou nenhuma tarefa.</div></section>
+  <section id="accountView" class="view" hidden><p class="eyebrow">PERFIL</p><h2>Minha conta</h2><article class="panel"><label>Como podemos te chamar?<input id="userName" placeholder="Seu nome"></label><p class="small muted" id="userEmail"></p><label>Cidade<input id="userCity" placeholder="Sua cidade"></label><button class="primary" id="saveProfile">Salvar perfil</button><p id="profileMsg" class="small muted"></p><button class="text-btn" id="logoutBtn">Sair da conta</button></article><article class="panel"><h3>Sobre o Renda+</h3><p class="muted">O Renda+ conecta pessoas a atividades remuneradas. Tarefas só são publicadas quando há fundos confirmados do anunciante. Nunca cobramos para liberar tarefas.</p></article></section>
+  <section id="adminView" class="view" hidden><p class="eyebrow">ÁREA DE TESTE</p><h2>Gerenciar tarefas</h2><article class="panel"><p class="muted">Área restrita a administradores. A tarefa só fica ativa se os fundos confirmados cobrirem a recompensa.</p><label>Título<input id="newTitle" placeholder="Ex.: Pesquisa de satisfação"></label><label>Descrição<textarea id="newDesc" placeholder="Explique o que a pessoa precisa fazer"></textarea></label><div class="two"><label>Recompensa (R$)<input id="newReward" type="number" min="0.01" step="0.01" placeholder="5,00"></label><label>Categoria<select id="newCategory"><option>Online</option><option>Local</option></select></label></div><label>Fundos confirmados do anunciante (R$)<input id="newFunded" type="number" min="0" step="0.01" placeholder="50,00"></label><button id="addTask" class="primary">Publicar tarefa</button><p id="adminMsg" class="small muted"></p></article><article class="panel"><h3>Envios para revisar</h3><div id="reviewList" class="muted">Nenhum envio pendente.</div></article></section>
+</main>
+<footer><span>RENDA+ <span class="muted">© 2026</span></span><button id="adminLink" class="text-btn" hidden>Área administrativa</button></footer>
+<dialog id="taskDialog"><form method="dialog" class="dialog-card"><button class="close" aria-label="Fechar">×</button><p class="eyebrow">DETALHES DA TAREFA</p><h2 id="dialogTitle"></h2><p id="dialogDesc" class="muted"></p><div class="reward-line"><span>Recompensa</span><strong id="dialogReward"></strong></div><label>Comprovante / link da atividade<textarea id="proof" placeholder="Conte o que você fez ou cole um link. Não envie senhas ou documentos."></textarea></label><button id="submitTask" class="primary" type="button">Enviar para análise</button><p id="dialogMsg" class="small muted"></p></form></dialog>
+<dialog id="authDialog"><div class="dialog-card"><p class="eyebrow">BEM-VINDO</p><h2>Entre no Renda+</h2><label>E-mail<input id="authEmail" type="email" autocomplete="email"></label><label>Senha (8+ caracteres)<input id="authPass" type="password" autocomplete="current-password"></label><button class="primary" id="loginBtn" type="button">Entrar</button> <button class="text-btn" id="signupBtn" type="button">Criar conta</button><p id="authMsg" class="small muted"></p></div></dialog>
+<div id="toast" role="status" class="toast"></div>
+<script src="app.js"></script>
+</body></html>
